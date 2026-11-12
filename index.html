@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luz Azul — Taller de Sublimación</title>
+<style>
+/* ============ VARIABLES (Tema Oscuro Azul) ============ */
+:root{
+  --azul-oscuro:#0A2342;
+  --azul-medio:#5B9BD5;
+  --azul-brillante:#7CB8EC;
+  --azul-claro:#4A7BC7;
+
+  --fondo:#0A1628;
+  --fondo-2:#0D1B2F;
+  --tarjeta:#122340;
+  --tarjeta-2:#1A2F52;
+  --tarjeta-3:#213B62;
+
+  --borde:#223A5E;
+  --borde-suave:#1C3152;
+
+  --tinta:#E8F0F8;
+  --gris:#8BA3C0;
+  --gris-suave:#5E7391;
+
+  --amarillo:#fbbf24;
+  --verde:#10b981;
+  --rojo:#ef4444;
+
+  --sombra:0 15px 40px rgba(91,155,213,.15);
+  --radio:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  color:var(--tinta);line-height:1.5;-webkit-font-smoothing:antialiased;
+  background-color:var(--fondo);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(91,155,213,.10) 0%, transparent 40%),
+    radial-gradient(circle at 88% 15%, rgba(124,184,236,.06) 0%, transparent 45%),
+    radial-gradient(circle at 50% 95%, rgba(74,123,199,.08) 0%, transparent 55%);
+  background-attachment:fixed;
+  min-height:100vh;
+}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font:inherit;color:inherit}
+input::placeholder,textarea::placeholder{color:var(--gris-suave)}
+img{display:block;max-width:100%}
+
+/* ============ LOADER GLOBAL ============ */
+#global-loader {
+  position: fixed; inset: 0; background: var(--fondo); z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.5s ease;
+}
+.spinner {
+  width: 50px; height: 50px; border: 4px solid rgba(91,155,213,.2);
+  border-top-color: var(--azul-brillante); border-radius: 50%;
+  animation: spin 1s linear infinite; margin-bottom: 20px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============ HEADER ============ */
+header{position:sticky;top:0;z-index:50;background:rgba(10,22,40,.88);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--borde)}
+.header-inner{max-width:1240px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.1rem;cursor:pointer}
+.logo-img{width:45px;height:45px;object-fit:contain;flex:none;border-radius:10px;box-shadow:0 4px 14px rgba(91,155,213,.25)}
+.logo-texto small{display:block;font-size:.68rem;font-weight:600;color:var(--gris);letter-spacing:.5px;text-transform:uppercase}
+.grad{background:linear-gradient(90deg,var(--azul-brillante),var(--azul-medio));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+nav{margin-left:auto;display:flex;gap:24px}
+nav a{text-decoration:none;color:var(--gris);font-weight:600;font-size:.92rem;transition:.2s}
+nav a:hover{color:var(--azul-brillante)}
+.btn-carrito{position:relative;margin-left:auto;
+  background:linear-gradient(135deg,var(--azul-medio),var(--azul-claro));color:#fff;
+  padding:11px 20px;border-radius:999px;font-weight:700;font-size:.92rem;
+  display:flex;align-items:center;gap:8px;box-shadow:0 8px 22px rgba(91,155,213,.35);
+  transition:transform .2s, box-shadow .2s}
+.btn-carrito:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(91,155,213,.5)}
+.badge{position:absolute;top:-7px;right:-7px;background:var(--amarillo);color:#3b2c00;
+  font-size:.7rem;font-weight:800;min-width:23px;height:23px;padding:0 6px;border-radius:999px;
+  display:grid;place-items:center;border:2px solid var(--fondo);transition:transform .25s}
+.badge.pop{transform:scale(1.45)}
+
+/* ============ HERO ============ */
+.hero{position:relative;padding:78px 20px 88px;text-align:center;
+  background:linear-gradient(180deg, rgba(26,47,82,.35) 0%, rgba(10,22,40,0) 100%)}
+.hero-content{position:relative;max-width:840px;margin:0 auto}
+.eyebrow{display:inline-block;padding:7px 18px;border-radius:999px;
+  background:var(--tarjeta);border:1px solid var(--borde);
+  font-size:.8rem;font-weight:700;color:var(--azul-brillante);
+  letter-spacing:.4px;margin-bottom:22px;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.hero h1{font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.1;letter-spacing:-1.5px;font-weight:800;margin-bottom:18px}
+.hero p{font-size:clamp(1rem,2vw,1.15rem);color:var(--gris);max-width:600px;margin:0 auto 32px}
+.hero-botones{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{padding:15px 30px;border-radius:14px;font-weight:700;font-size:.98rem;
+  text-decoration:none;display:inline-flex;align-items:center;gap:9px;justify-content:center;
+  transition:transform .2s, box-shadow .2s;border:none;cursor:pointer}
+.btn-primario{background:linear-gradient(135deg,var(--azul-medio),var(--azul-claro));
+  color:#fff;box-shadow:0 10px 28px rgba(91,155,213,.4)}
+.btn-primario:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(91,155,213,.55)}
+.btn-blanco{background:var(--tarjeta-2);color:var(--tinta);
+  border:1px solid var(--borde);box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.btn-blanco:hover{transform:translateY(-3px);border-color:var(--azul-medio);background:var(--tarjeta-3)}
+
+/* ============ SECCIONES ============ */
+.seccion{max-width:1240px;margin:0 auto;padding:20px 20px 70px}
+.titulo-seccion{margin-bottom:6px;font-size:clamp(1.5rem,3.4vw,2rem);font-weight:800;letter-spacing:-.8px}
+.sub-seccion{color:var(--gris);font-size:.98rem;margin-bottom:26px}
+
+/* ============ FILTROS ============ */
+.filtros{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.chip{padding:9px 19px;border-radius:999px;background:var(--tarjeta);
+  border:1px solid var(--borde);font-weight:600;font-size:.88rem;
+  color:var(--gris);transition:.22s}
+.chip:hover{border-color:var(--azul-medio);color:var(--azul-brillante)}
+.chip.activo{background:linear-gradient(135deg,var(--azul-medio),var(--azul-claro));color:#fff;
+  border-color:transparent;box-shadow:0 8px 22px rgba(91,155,213,.35)}
+
+/* ============ GRID PRODUCTOS ============ */
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(228px,1fr))}
+.card{background:var(--tarjeta);border-radius:var(--radio);padding:14px;
+  border:1px solid var(--borde);display:flex;flex-direction:column;
+  transition:transform .25s, box-shadow .25s, border-color .25s; height:100%;
+  box-shadow:0 2px 12px rgba(0,0,0,.3);cursor:pointer;overflow:hidden;position:relative}
+.card:hover{transform:translateY(-6px);box-shadow:var(--sombra);border-color:var(--azul-medio)}
+
+/* IMAGEN CON CUADRO PERFECTO Y FONDO BLANCO */
+.card-img{width:100%;aspect-ratio:1/1;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;background:#FFFFFF;overflow:hidden;position:relative;padding:10px}
+.card-img img{width:100%;height:100%;display:block;object-fit:contain}
+
+.badge-oferta{position:absolute;top:8px;left:8px;z-index:2;
+  background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;
+  font-size:.68rem;font-weight:900;padding:5px 10px;border-radius:8px;letter-spacing:.5px;
+  box-shadow:0 4px 12px rgba(239,68,68,.5);text-transform:uppercase}
+.card h3{font-size:1.02rem;margin-bottom:4px;letter-spacing:-.3px;color:var(--tinta)}
+.card .desc{font-size:.83rem;color:var(--gris);flex:1;margin-bottom:12px;min-height:34px}
+.card .fila{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.precios{display:flex;flex-direction:column;gap:1px;min-width:0}
+.precio{font-weight:800;font-size:1.12rem;color:var(--azul-brillante);letter-spacing:-.5px}
+.precio-original{font-size:.82rem;color:var(--gris-suave);text-decoration:line-through;font-weight:600}
+.btn-agregar{background:var(--azul-medio);color:#fff;padding:10px 15px;border-radius:12px;
+  font-weight:700;font-size:.85rem;transition:.22s;white-space:nowrap}
+.btn-agregar:hover{background:linear-gradient(135deg,var(--azul-brillante),var(--azul-medio));
+  box-shadow:0 6px 18px rgba(124,184,236,.35)}
+.btn-agregar:active{transform:scale(.94)}
+
+/* ============ MODAL DETALLE ============ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
+  z-index:150;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.modal-overlay.visible{display:flex}
+.modal{background:var(--tarjeta);border-radius:24px;max-width:1000px;width:100%;max-height:92dvh;
+  overflow-y:auto;position:relative;border:1px solid var(--borde);
+  box-shadow:0 30px 80px rgba(0,0,0,.7);animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+.modal-cerrar{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:12px;
+  background:rgba(10,22,40,.9);border:1px solid var(--borde);
+  display:grid;place-items:center;font-size:1.1rem;color:var(--tinta);z-index:5;transition:.2s}
+.modal-cerrar:hover{background:var(--tarjeta-3);transform:scale(1.08)}
+
+.detalle{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.detalle-galeria{background:var(--fondo);padding:24px;border-radius:24px 0 0 0;position:relative}
+
+/* IMAGEN DETALLE CON CUADRO PERFECTO */
+.detalle-img{width:100%;aspect-ratio:1/1;border-radius:18px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;font-size:6rem;background:#FFFFFF;padding:16px}
+.detalle-img img{width:100%;height:100%;object-fit:contain}
+
+.miniaturas{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.miniaturas button{width:60px;height:60px;border-radius:12px;overflow:hidden;
+  border:2px solid transparent;background:#FFFFFF;transition:.2s;padding:4px;flex:none}
+.miniaturas button.activa{border-color:var(--azul-medio)}
+.miniaturas button img{width:100%;height:100%;object-fit:contain}
+
+.detalle-info{padding:34px 32px;display:flex;flex-direction:column}
+.detalle-info .cat{display:inline-block;padding:5px 14px;border-radius:999px;
+  background:rgba(91,155,213,.18);color:var(--azul-brillante);
+  font-size:.75rem;font-weight:800;letter-spacing:.4px;
+  text-transform:uppercase;margin-bottom:14px;align-self:flex-start}
+.detalle-info h2{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:800;letter-spacing:-.8px;margin-bottom:10px;line-height:1.2}
+.detalle-precios{margin-bottom:18px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.detalle-precios .precio-grande{font-size:1.9rem;font-weight:800;color:var(--azul-brillante);letter-spacing:-1px}
+.detalle-precios .precio-tachado{font-size:1.1rem;color:var(--gris-suave);text-decoration:line-through;font-weight:600}
+.detalle-precios .ahorro{background:rgba(239,68,68,.18);color:#fca5a5;
+  font-size:.72rem;font-weight:800;padding:4px 10px;border-radius:8px;letter-spacing:.3px}
+.detalle-info .largo{color:var(--gris);font-size:.96rem;margin-bottom:24px;flex:1;white-space:pre-wrap}
+.cant-selector{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.cant-selector label{font-weight:700;font-size:.9rem;color:var(--gris)}
+.cant-box{display:inline-flex;align-items:center;background:var(--fondo);border-radius:12px;padding:4px;
+  border:1px solid var(--borde)}
+.cant-box button{width:36px;height:36px;border-radius:9px;font-weight:800;
+  color:var(--azul-brillante);font-size:1.1rem;transition:.15s}
+.cant-box button:hover{background:var(--tarjeta-2)}
+.cant-box span{min-width:40px;text-align:center;font-weight:800;font-size:1rem}
+.detalle-info .btn-primario{width:100%;padding:16px}
+
+/* GALERÍA DE TRABAJOS HECHOS (Dentro del Modal) */
+.galeria-trabajos{
+  padding: 24px 32px 34px;
+  background: var(--fondo-2);
+  border-top: 1px dashed var(--borde);
+  border-radius: 0 0 24px 24px;
+}
+.galeria-trabajos h3{
+  font-size: 1.1rem; font-weight: 800; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px; color: var(--azul-brillante);
+}
+.trabajos-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+.trabajo-item{
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  background: var(--tarjeta);
+  aspect-ratio: 1 / 1;
+  transition: transform .2s;
+  cursor: pointer;
+  padding: 4px;
+}
+.trabajo-item:hover{ transform: scale(1.03); border-color: var(--azul-medio); }
+.trabajo-item img{
+  width: 100%; height: 100%; object-fit: contain;
+}
+
+@media (max-width:760px){
+  .detalle{grid-template-columns:1fr}
+  .detalle-galeria{border-radius:24px 24px 0 0;padding:18px}
+  .detalle-info{padding:24px 22px}
+  .galeria-trabajos{padding: 20px; border-radius: 0 0 24px 24px;}
+}
+
+/* ============ LISTA DE COMPRAS ============ */
+.panel{background:var(--tarjeta);border:1px solid var(--borde);border-radius:22px;
+  padding:26px;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.lista-form{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.lista-form input[type=text]{flex:1;min-width:190px;padding:13px 16px;border-radius:12px;
+  border:1.5px solid var(--borde);background:var(--fondo);color:var(--tinta);
+  outline:none;transition:.2s}
+.lista-form input[type=text]:focus{border-color:var(--azul-medio);
+  box-shadow:0 0 0 4px rgba(91,155,213,.15)}
+.lista-form input[type=number]{width:88px;padding:13px 12px;border-radius:12px;text-align:center;
+  border:1.5px solid var(--borde);background:var(--fondo);color:var(--tinta);outline:none;transition:.2s}
+.lista-form input[type=number]:focus{border-color:var(--azul-medio)}
+.btn-chico{padding:13px 22px;border-radius:12px;font-weight:700;font-size:.9rem;
+  background:linear-gradient(135deg,var(--azul-medio),var(--azul-claro));color:#fff;
+  box-shadow:0 6px 18px rgba(91,155,213,.3);transition:.2s;border:none;cursor:pointer}
+.btn-chico:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(91,155,213,.45)}
+.btn-chico.gris{background:var(--tarjeta-2);color:var(--gris);border:1.5px solid var(--borde);box-shadow:none}
+.btn-chico.gris:hover{border-color:var(--azul-medio);color:var(--azul-brillante);background:var(--tarjeta-3)}
+
+.item-lista{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:13px;
+  background:var(--fondo);border:1px solid var(--borde);margin-bottom:9px;transition:.2s}
+.item-lista:hover{border-color:var(--azul-medio);background:var(--tarjeta-2)}
+.item-lista.hecho{opacity:.5}
+.item-lista.hecho .texto{text-decoration:line-through}
+.check{width:23px;height:23px;flex:none;border-radius:7px;border:2px solid var(--borde);
+  display:grid;place-items:center;font-size:.75rem;color:transparent;transition:.2s;
+  background:var(--tarjeta-2);cursor:pointer}
+.check.on{background:linear-gradient(135deg,var(--azul-medio),var(--azul-claro));
+  border-color:transparent;color:#fff}
+.item-lista .texto{flex:1;font-weight:600;font-size:.94rem}
+.item-lista .cant{background:rgba(91,155,213,.18);color:var(--azul-brillante);
+  font-weight:800;font-size:.78rem;padding:4px 11px;border-radius:999px;flex:none}
+.btn-borrar{color:var(--gris-suave);font-size:1rem;padding:5px;border-radius:8px;transition:.2s;flex:none}
+.btn-borrar:hover{color:#fca5a5;background:rgba(239,68,68,.15)}
+.lista-vacia{text-align:center;color:var(--gris);padding:34px 10px;font-size:.94rem}
+.lista-vacia span{display:block;font-size:2.4rem;margin-bottom:10px}
+.lista-pie{display:flex;justify-content:space-between;align-items:center;gap:14px;
+  flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px dashed var(--borde)}
+.lista-pie .resumen{font-size:.9rem;color:var(--gris)}
+.lista-pie .resumen strong{color:var(--tinta);font-size:1.05rem}
+
+/* ============ CARRITO DRAWER ============ */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);
+  opacity:0;pointer-events:none;transition:.3s;z-index:90}
+.overlay.visible{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100dvh;width:min(430px,100%);
+  background:var(--tarjeta);z-index:100;border-left:1px solid var(--borde);
+  transform:translateX(105%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;box-shadow:-20px 0 55px rgba(0,0,0,.6)}
+.drawer.abierto{transform:translateX(0)}
+.drawer-head{padding:20px 22px;border-bottom:1px solid var(--borde);
+  display:flex;align-items:center;justify-content:space-between;flex:none}
+.drawer-head h2{font-size:1.15rem;font-weight:800;letter-spacing:-.4px}
+.btn-cerrar{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;
+  background:var(--tarjeta-2);color:var(--gris);font-size:1rem;transition:.2s}
+.btn-cerrar:hover{background:var(--tarjeta-3);color:var(--azul-brillante)}
+.drawer-body{flex:1;overflow-y:auto;padding:16px 22px}
+.item-carrito{display:flex;gap:13px;padding:14px 0;border-bottom:1px solid var(--borde-suave);animation:entrar .3s ease}
+@keyframes entrar{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+
+.item-carrito .emoji{width:56px;height:56px;flex:none;border-radius:14px;display:grid;place-items:center;
+  font-size:1.6rem;background:#FFFFFF;overflow:hidden;padding:4px}
+.item-carrito .emoji img{width:100%;height:100%;object-fit:contain}
+
+.item-carrito .info{flex:1;min-width:0}
+.item-carrito .info strong{display:block;font-size:.93rem;font-weight:700;margin-bottom:3px;color:var(--tinta)}
+.item-carrito .info .unit{font-size:.8rem;color:var(--gris)}
+.cant-control{display:inline-flex;align-items:center;gap:2px;margin-top:9px;
+  background:var(--fondo);border-radius:10px;padding:3px;border:1px solid var(--borde)}
+.cant-control button{width:27px;height:27px;border-radius:8px;display:grid;place-items:center;
+  font-weight:800;color:var(--azul-brillante);transition:.15s;font-size:.95rem}
+.cant-control button:hover{background:var(--tarjeta-2)}
+.cant-control span{min-width:26px;text-align:center;font-weight:700;font-size:.88rem}
+.item-carrito .der{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:8px;flex:none}
+.item-carrito .der .sub{font-weight:800;font-size:.95rem;color:var(--azul-brillante)}
+.btn-quitar{color:var(--gris-suave);font-size:.95rem;transition:.2s;padding:3px}
+.btn-quitar:hover{color:#fca5a5}
+.carrito-vacio{text-align:center;padding:60px 20px;color:var(--gris)}
+.carrito-vacio span{display:block;font-size:3.4rem;margin-bottom:14px}
+.carrito-vacio p{margin-bottom:20px;font-size:.95rem}
+.drawer-foot{flex:none;padding:20px 22px 24px;border-top:1px solid var(--borde);background:var(--fondo-2)}
+.linea{display:flex;justify-content:space-between;font-size:.92rem;color:var(--gris);margin-bottom:8px}
+.linea.total{font-size:1.3rem;font-weight:800;color:var(--tinta);
+  padding-top:12px;margin-top:8px;border-top:1px dashed var(--borde)}
+.linea.total strong{color:var(--azul-brillante)}
+.linea .ahorro-linea{color:#6ee7b7;font-weight:700}
+.drawer-foot .btn-primario{width:100%;justify-content:center;margin-top:16px;padding:16px}
+.btn-limpiar{width:100%;text-align:center;margin-top:10px;font-size:.85rem;
+  color:var(--gris);font-weight:600;padding:8px;transition:.2s}
+.btn-limpiar:hover{color:#fca5a5}
+
+/* ============ FOOTER ============ */
+footer{background:#050D1A;color:#fff;padding:52px 20px 26px;margin-top:20px;
+  border-top:1px solid var(--borde-suave)}
+.footer-inner{max-width:1240px;margin:0 auto;display:grid;gap:34px;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+footer h4{font-size:1rem;margin-bottom:14px;font-weight:800;color:var(--azul-brillante)}
+footer p,footer a{color:var(--gris);font-size:.9rem;text-decoration:none;
+  display:block;margin-bottom:9px;transition:.2s}
+footer a:hover{color:var(--azul-brillante)}
+.footer-bottom{max-width:1240px;margin:36px auto 0;padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.08);text-align:center;font-size:.82rem;
+  color:var(--gris-suave);display:flex;justify-content:space-between;
+  align-items:center;gap:16px;flex-wrap:wrap}
+.admin-link{color:var(--gris-suave)!important;font-size:.82rem!important;
+  display:inline!important;cursor:pointer;background:none;border:none;padding:0}
+.admin-link:hover{color:var(--azul-brillante)!important}
+
+/* ============ TOAST ============ */
+.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,120%);
+  background:var(--tarjeta-3);color:var(--tinta);padding:14px 26px;border-radius:14px;
+  font-weight:600;font-size:.9rem;z-index:300;border:1px solid var(--borde);
+  box-shadow:0 14px 34px rgba(0,0,0,.6);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);pointer-events:none;
+  max-width:90vw;text-align:center}
+.toast.visible{transform:translate(-50%,0)}
+
+/* =========================================================
+   PANEL DE ADMINISTRACIÓN (oscuro)
+   ========================================================= */
+.admin-panel{position:fixed;inset:0;background:var(--fondo);z-index:200;overflow-y:auto;display:none}
+.admin-panel.visible{display:block}
+.admin-top{background:#050D1A;color:#fff;padding:16px 24px;position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--borde)}
+.admin-top h2{font-size:1.05rem;font-weight:800;letter-spacing:-.3px}
+.admin-top .spacer{flex:1}
+.admin-top .btn-salir{background:rgba(255,255,255,.08);color:#fff;padding:9px 18px;
+  border-radius:11px;font-weight:700;font-size:.85rem;transition:.2s;border:1px solid rgba(255,255,255,.1)}
+.admin-top .btn-salir:hover{background:rgba(255,255,255,.15)}
+
+.admin-login{max-width:420px;margin:80px auto;padding:40px 32px;background:var(--tarjeta);
+  border:1px solid var(--borde);border-radius:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center}
+.admin-login .icono{width:70px;height:70px;border-radius:20px;margin:0 auto 22px;
+  background:linear-gradient(135deg,var(--azul-medio),var(--azul-claro));
+  display:grid;place-items:center;font-size:2rem;color:#fff;
+  box-shadow:0 12px 30px rgba(91,155,213,.4)}
+.admin-login h2{font-size:1.4rem;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}
+.admin-login p{color:var(--gris);font-size:.9rem;margin-bottom:26px}
+.admin-login input{width:100%;padding:15px 18px;border-radius:13px;border:1.5px solid var(--borde);
+  background:var(--fondo);color:var(--tinta);outline:none;text-align:center;
+  font-size:1rem;letter-spacing:2px;transition:.2s;margin-bottom:14px}
+.admin-login input:focus{border-color:var(--azul-medio);
+  box-shadow:0 0 0 4px rgba(91,155,213,.18)}
+.admin-login .btn-primario{width:100%;padding:15px}
+.admin-login .error{color:#fca5a5;font-size:.85rem;margin-top:12px;font-weight:600;min-height:20px}
+
+.admin-content{max-width:1240px;margin:0 auto;padding:30px 20px 80px}
+.admin-tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap}
+.admin-tab{padding:11px 22px;border-radius:12px;background:var(--tarjeta);
+  border:1.5px solid var(--borde);font-weight:700;font-size:.9rem;
+  color:var(--gris);transition:.2s}
+.admin-tab:hover{border-color:var(--azul-medio);color:var(--azul-brillante)}
+.admin-tab.activo{background:linear-gradient(135deg,var(--azul-medio),var(--azul-claro));color:#fff;
+  border-color:transparent;box-shadow:0 8px 22px rgba(91,155,213,.35)}
+
+.admin-card{background:var(--tarjeta);border:1px solid var(--borde);border-radius:20px;
+  padding:26px;margin-bottom:22px;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.admin-card h3{font-size:1.1rem;font-weight:800;margin-bottom:6px;letter-spacing:-.3px}
+.admin-card .hint{color:var(--gris);font-size:.86rem;margin-bottom:20px}
+
+/* TABLA PRODUCTOS */
+.admin-tabla{display:flex;flex-direction:column;gap:12px}
+.admin-item{border:1px solid var(--borde);border-radius:16px;background:var(--tarjeta);
+  overflow:hidden;transition:box-shadow .25s, border-color .25s}
+.admin-item.editando{border-color:var(--azul-medio);box-shadow:0 8px 28px rgba(91,155,213,.25)}
+.admin-fila{
+  display:grid;grid-template-columns:64px 1fr 130px 130px 100px auto;
+  gap:12px;align-items:center;padding:14px;background:var(--fondo);transition:.2s;
+}
+.admin-item.editando .admin-fila{background:rgba(91,155,213,.10)}
+.admin-fila:hover{background:var(--tarjeta-2)}
+.admin-item.editando .admin-fila:hover{background:rgba(91,155,213,.14)}
+.admin-fila.oculto{opacity:.55}
+
+.admin-thumb{width:58px;height:58px;border-radius:12px;overflow:hidden;display:grid;place-items:center;
+  background:#FFFFFF;font-size:1.7rem;flex:none;position:relative;padding:4px}
+.admin-thumb img{width:100%;height:100%;object-fit:contain}
+
+.admin-thumb .mini-oferta{position:absolute;top:-3px;left:-3px;background:#ef4444;color:#fff;
+  font-size:.55rem;font-weight:900;padding:3px 6px;border-radius:6px;
+  letter-spacing:.3px;border:2px solid var(--tarjeta)}
+.admin-fila .nom{font-weight:700;font-size:.94rem;line-height:1.3;color:var(--tinta)}
+.admin-fila .cat-tag{font-size:.78rem;color:var(--azul-brillante);font-weight:700;
+  text-transform:uppercase;letter-spacing:.3px}
+.campo-precio{display:flex;flex-direction:column;gap:3px}
+.campo-precio small{font-size:.62rem;color:var(--gris);font-weight:800;
+  text-transform:uppercase;letter-spacing:.4px;padding-left:2px}
+.input-precio-inline{
+  width:100%;padding:8px 10px;border:1.5px solid var(--borde);border-radius:10px;
+  font-size:.9rem;font-weight:700;color:var(--azul-brillante);text-align:right;
+  background:var(--tarjeta);outline:none;transition:.2s;font-variant-numeric:tabular-nums;
+}
+.input-precio-inline:focus{border-color:var(--azul-medio);
+  box-shadow:0 0 0 3px rgba(91,155,213,.18);background:var(--fondo)}
+.input-precio-inline.oferta{color:#fca5a5;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3)}
+.input-precio-inline.oferta:focus{border-color:#ef4444;
+  box-shadow:0 0 0 3px rgba(239,68,68,.18)}
+.input-precio-inline::placeholder{color:var(--gris-suave);font-weight:400}
+.input-precio-inline:disabled{background:rgba(255,255,255,.03);color:var(--gris-suave);cursor:not-allowed}
+.admin-acciones{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.mini-btn{padding:7px 10px;border-radius:9px;font-weight:700;font-size:.75rem;
+  background:var(--tarjeta-2);color:var(--azul-brillante);transition:.2s;
+  border:1px solid transparent;white-space:nowrap}
+.mini-btn:hover{background:var(--tarjeta-3);border-color:var(--azul-medio)}
+.mini-btn.rojo{background:rgba(239,68,68,.15);color:#fca5a5}
+.mini-btn.rojo:hover{background:rgba(239,68,68,.28)}
+.mini-btn.verde{background:rgba(16,185,129,.15);color:#6ee7b7}
+.mini-btn.verde:hover{background:rgba(16,185,129,.28)}
+.mini-btn.gris{background:rgba(139,163,192,.12);color:var(--gris)}
+.mini-btn.gris:hover{background:rgba(139,163,192,.22)}
+.mini-btn.oferta{background:rgba(239,68,68,.15);color:#fca5a5}
+.mini-btn.oferta:hover{background:rgba(239,68,68,.28)}
+
+@media (max-width:1000px){
+  .admin-fila{grid-template-columns:56px 1fr 100px 100px;gap:10px}
+  .admin-acciones{grid-column:1/-1;justify-content:flex-start;margin-top:8px}
+}
+@media (max-width:640px){
+  .admin-fila{grid-template-columns:56px 1fr;gap:10px;padding:12px}
+  .campo-precio{grid-column:2}
+  .admin-acciones{grid-column:1/-1}
+}
+
+/* FORMULARIO INLINE */
+.admin-edit{padding:24px;background:var(--fondo-2);border-top:1px dashed var(--borde);animation:slideDown .3s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.admin-edit h4{font-size:1rem;font-weight:800;margin-bottom:4px;letter-spacing:-.3px}
+.admin-edit .hint{color:var(--gris);font-size:.84rem;margin-bottom:20px}
+.form-grid{display:grid;gap:16px;grid-template-columns:1fr 1fr 1fr}
+.form-grid .full{grid-column:1/-1}
+.form-grid .span2{grid-column:span 2}
+@media (max-width:760px){
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .span2{grid-column:1/-1}
+}
+.campo label{display:block;font-size:.78rem;font-weight:700;color:var(--gris);
+  margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
+.campo input,.campo select,.campo textarea{
+  width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--borde);
+  background:var(--fondo);color:var(--tinta);outline:none;transition:.2s;font-size:.92rem}
+.campo input:focus,.campo select:focus,.campo textarea:focus{
+  border-color:var(--azul-medio);box-shadow:0 0 0 4px rgba(91,155,213,.15)}
+.campo textarea{resize:vertical;min-height:80px;font-family:inherit}
+.campo small{display:block;color:var(--gris);font-size:.74rem;margin-top:5px}
+
+/* Oferta */
+.oferta-box{grid-column:1/-1;padding:16px;border-radius:14px;
+  background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.25);transition:.2s}
+.oferta-box.activa{border-color:#ef4444;background:rgba(239,68,68,.14)}
+.oferta-head{display:flex;align-items:center;gap:12px;margin-bottom:0}
+.oferta-head input[type=checkbox]{width:22px;height:22px;accent-color:#ef4444;cursor:pointer;flex:none}
+.oferta-head strong{font-size:.94rem;font-weight:800;color:#fca5a5}
+.oferta-head span{font-size:.78rem;color:var(--gris-suave);font-weight:600;margin-left:auto}
+.oferta-campos{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.oferta-campos{grid-template-columns:1fr}}
+.oferta-preview{grid-column:1/-1;padding:12px 16px;border-radius:12px;background:var(--fondo);
+  border:1px dashed rgba(239,68,68,.3);display:flex;align-items:center;gap:12px;
+  flex-wrap:wrap;font-size:.85rem}
+.oferta-preview .orig{color:var(--gris-suave);text-decoration:line-through;font-weight:700}
+.oferta-preview .nuevo{color:var(--azul-brillante);font-weight:800;font-size:1.05rem}
+.oferta-preview .desc{background:rgba(239,68,68,.18);color:#fca5a5;font-weight:800;
+  padding:3px 9px;border-radius:7px;font-size:.72rem}
+
+/* DROP ZONES */
+.drop-zone{
+  border:2px dashed rgba(91,155,213,.5);border-radius:16px;
+  padding:24px;text-align:center;background:rgba(91,155,213,.04);
+  cursor:pointer;transition:all .25s ease;margin-bottom:12px;
+  position:relative;overflow:hidden;
+}
+.drop-zone:hover{border-color:var(--azul-brillante);background:rgba(91,155,213,.08)}
+.drop-zone.activa{
+  border-color:var(--azul-brillante);background:rgba(91,155,213,.15);
+  transform:scale(1.01);box-shadow:0 0 0 4px rgba(91,155,213,.15);
+}
+.drop-zone .drop-icon{font-size:2rem;margin-bottom:8px;transition:.2s}
+.drop-zone.activa .drop-icon{transform:scale(1.15) translateY(-3px)}
+.drop-zone .drop-title{font-weight:800;font-size:.95rem;color:var(--azul-brillante);margin-bottom:4px}
+.drop-zone .drop-hint{font-size:.75rem;color:var(--gris);line-height:1.5}
+.drop-zone .drop-hint kbd{
+  display:inline-block;padding:2px 6px;border-radius:5px;
+  background:var(--tarjeta-2);border:1px solid var(--borde);font-size:.7rem;
+  font-family:inherit;font-weight:700;color:var(--tinta);
+}
+
+.img-lista{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.img-item{position:relative;width:80px;height:80px;border-radius:12px;overflow:hidden;
+  border:2px solid var(--borde);background:#FFFFFF;transition:.2s;animation:aparecer .3s ease;padding:2px}
+@keyframes aparecer{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.img-item:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(91,155,213,.25);border-color:var(--azul-medio)}
+.img-item img{width:100%;height:100%;object-fit:contain}
+.img-item .quitar{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:6px;
+  background:rgba(239,68,68,.92);color:#fff;font-size:.65rem;
+  display:grid;place-items:center;transition:.2s;z-index:2}
+.img-item .quitar:hover{background:var(--rojo);transform:scale(1.1)}
+.img-item .principal{position:absolute;bottom:0;left:0;right:0;background:rgba(91,155,213,.95);
+  color:#fff;font-size:.55rem;font-weight:800;text-align:center;padding:2px;letter-spacing:.5px}
+
+.admin-edit-acciones{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;
+  padding-top:20px;border-top:1px dashed var(--borde)}
+.admin-edit-acciones .btn-chico{flex:1;min-width:150px}
+.campo-check{display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;
+  background:var(--fondo);border:1.5px solid var(--borde);cursor:pointer}
+.campo-check input{width:20px;height:20px;accent-color:var(--azul-medio);cursor:pointer}
+.campo-check span{font-weight:700;font-size:.9rem}
+
+.config-lista{display:flex;flex-direction:column;gap:16px;max-width:560px}
+.aviso{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);
+  color:#fcd34d;padding:14px 18px;border-radius:14px;font-size:.85rem;
+  line-height:1.5;margin-bottom:20px}
+.aviso strong{font-weight:800}
+.vacio-admin{text-align:center;padding:50px 20px;color:var(--gris)}
+.vacio-admin span{display:block;font-size:3rem;margin-bottom:12px}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:820px){
+  nav{display:none}
+  .hero{padding:56px 20px 66px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:14px}
+  .card{padding:12px}
+  .card .fila{flex-direction:column;align-items:stretch;gap:9px}
+  .btn-agregar{width:100%;text-align:center}
+  .panel{padding:20px}
+  .seccion{padding:14px 16px 56px}
+}
+@media (max-width:420px){
+  .logo-texto{font-size:.95rem}
+  .btn-carrito{padding:10px 15px;font-size:.85rem}
+  .grid{grid-template-columns:1fr 1fr}
+}
+@media print{
+  body *{visibility:hidden}
+  #lista,#lista *{visibility:visible}
+  #lista{position:absolute;left:0;top:0;width:100%;padding:0;box-shadow:none;border:none}
+  .no-imprimir{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER INICIAL -->
+<div id="global-loader">
+  <div class="spinner"></div>
+  <div style="color:var(--azul-brillante); font-weight:700;">Cargando Luz Azul...</div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo" onclick="location.hash='';window.scrollTo({top:0,behavior:'smooth'})">
+      <img src="logo.png" alt="Luz Azul Logo" class="logo-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%235B9BD5\'/><text x=\'50\' y=\'55\' font-size=\'50\' text-anchor=\'middle\' fill=\'white\' dy=\'.3em\'>LZ</text></svg>'">
+      <div class="logo-texto">
+        <span class="grad">Luz Azul</span>
+        <small>Taller de sublimación</small>
+      </div>
+    </div>
+    <nav>
+      <a href="#productos">Productos</a>
+      <a href="#lista">Lista de compras</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button class="btn-carrito" id="btnAbrirCarrito">
+      🛒 <span>Carrito</span>
+      <span class="badge" id="badge">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="eyebrow">✨ Equilibrio y calidad</span>
+    <h1>Dale vida a tus ideas en <span class="grad">Luz Azul</span></h1>
+    <p>Tazas, franelas, gorras, termos y más — sublimados a todo color, con acabado profesional y hecho a mano en nuestro taller.</p>
+    <div class="hero-botones">
+      <a href="#productos" class="btn btn-primario">🛍️ Ver productos</a>
+      <a href="#lista" class="btn btn-blanco">📝 Mi lista de compras</a>
+    </div>
+  </div>
+</section>
+
+<section class="seccion" id="productos">
+  <h2 class="titulo-seccion">Nuestros productos</h2>
+  <p class="sub-seccion">Haz clic en cualquier producto para ver más información, fotos y ejemplos de trabajos.</p>
+  <div class="filtros" id="filtros"></div>
+  <div class="grid" id="gridProductos"></div>
+</section>
+
+<section class="seccion" id="lista">
+  <h2 class="titulo-seccion">📝 Lista de compras del taller</h2>
+  <p class="sub-seccion">Anota lo que necesitas comprar o producir. Puedes marcarlo como listo, imprimirlo o enviarlo por WhatsApp.</p>
+  <div class="panel">
+    <div class="lista-form no-imprimir">
+      <input type="text" id="inputItem" placeholder="Ej: Vinilo transfer, 10 tazas blancas...">
+      <input type="number" id="inputCant" value="1" min="1">
+      <button class="btn-chico" id="btnAgregarItem">+ Agregar</button>
+    </div>
+    <div id="contenedorLista"></div>
+    <div class="lista-pie no-imprimir">
+      <div class="resumen" id="resumenLista"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-chico gris" id="btnImprimir">🖨️ Imprimir</button>
+        <button class="btn-chico gris" id="btnCompartirLista">📤 Enviar por WhatsApp</button>
+        <button class="btn-chico gris" id="btnLimpiarLista">🗑️ Limpiar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contacto">
+  <div class="footer-inner">
+    <div>
+      <h4>💠 Luz Azul</h4>
+      <p>Taller de sublimación y personalización. Hacemos realidad tus ideas con color, detalle y equilibrio.</p>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <a href="#" id="linkWaFooter">💬 WhatsApp</a>
+      <a href="mailto:luzazul@gmail.com">✉️ luzazul@gmail.com</a>
+      <a href="#">📍 Visítanos en el taller</a>
+    </div>
+    <div>
+      <h4>Horarios</h4>
+      <p>Lunes a Viernes: 8:00 am – 6:00 pm</p>
+      <p>Sábados: 9:00 am – 2:00 pm</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span id="anio"></span> Luz Azul — Hecho con 💙</span>
+    <button class="admin-link" id="btnAbrirAdmin">⚙️ Panel de administración</button>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Carrito de compras">
+  <div class="drawer-head">
+    <h2>🛒 Tu carrito</h2>
+    <button class="btn-cerrar" id="btnCerrarCarrito">✕</button>
+  </div>
+  <div class="drawer-body" id="carritoItems"></div>
+  <div class="drawer-foot">
+    <div class="linea" id="lineaAhorro" style="display:none">
+      <span>💚 Ahorro por ofertas</span>
+      <strong class="ahorro-linea" id="ahorroTotal">$ 0</strong>
+    </div>
+    <div class="linea"><span>Subtotal</span><strong id="subtotal">$ 0</strong></div>
+    <div class="linea"><span>Personalización</span><strong>Incluida ✨</strong></div>
+    <div class="linea total"><span>Total</span><strong id="total">$ 0</strong></div>
+    <button class="btn btn-primario" id="btnWhatsapp">💬 Pedir por WhatsApp</button>
+    <button class="btn-limpiar" id="btnVaciar">Vaciar carrito</button>
+  </div>
+</aside>
+
+<div class="modal-overlay" id="modalDetalle">
+  <div class="modal" id="modalDetalleContenido"></div>
+</div>
+
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-login" id="adminLogin">
+    <div class="icono">🔐</div>
+    <h2>Panel de administración</h2>
+    <p>Ingresa la contraseña para gestionar los productos.</p>
+    <input type="password" id="adminPass" placeholder="Contraseña">
+    <button class="btn btn-primario" id="btnLogin">Entrar</button>
+    <div class="error" id="loginError"></div>
+    <button class="btn-limpiar" id="btnCerrarLogin" style="margin-top:16px">← Volver a la tienda</button>
+  </div>
+
+  <div id="adminContent" style="display:none">
+    <div class="admin-top">
+      <h2>Panel de administración</h2>
+      <div class="spacer"></div>
+      <button class="btn-salir" id="btnVerTienda">👁️ Ver tienda</button>
+      <button class="btn-salir" id="btnSalirAdmin">Cerrar sesión</button>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-tabs">
+        <button class="admin-tab activo" data-tab="productos">📦 Productos</button>
+        <button class="admin-tab" data-tab="config">⚙️ Configuración</button>
+        <button class="admin-tab" data-tab="datos">💾 Datos</button>
+      </div>
+
+      <div id="tab-productos">
+        <div class="admin-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px">
+            <div>
+              <h3>Productos del catálogo</h3>
+              <p class="hint" style="margin:0">✏️ <strong>Edita los precios directamente en la tabla</strong> — se guardan al instante en la nube. Usa "Editar" para el resto de detalles.</p>
+            </div>
+            <button class="btn-chico" id="btnNuevoProducto">+ Nuevo producto</button>
+          </div>
+          <div class="admin-tabla" id="adminTabla"></div>
+        </div>
+      </div>
+
+      <div id="tab-config" style="display:none">
+        <div class="admin-card">
+          <h3>Datos de contacto</h3>
+          <p class="hint">Se usan en los botones de WhatsApp y en el pie de página.</p>
+          <div class="config-lista">
+            <div class="campo">
+              <label>Número de WhatsApp (con código de país, sin +)</label>
+              <input type="text" id="cfgWhatsapp" placeholder="584120000000">
+            </div>
+            <div class="campo">
+              <label>Nombre del negocio</label>
+              <input type="text" id="cfgNombre" placeholder="Luz Azul">
+            </div>
+            <div class="campo">
+              <label>Símbolo de moneda</label>
+              <input type="text" id="cfgMoneda" placeholder="$" maxlength="4">
+            </div>
+            <button class="btn-chico" id="btnGuardarConfig" style="align-self:flex-start">💾 Guardar configuración</button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h3>Contraseña de administración</h3>
+          <p class="hint">Cámbiala por una que solo tú conozcas.</p>
+          <div class="config-lista">
+            <div class="campo">
+              <label>Nueva contraseña</label>
+              <input type="text" id="cfgPass" placeholder="Nueva contraseña">
+            </div>
+            <button class="btn-chico" id="btnGuardarPass" style="align-self:flex-start">🔑 Cambiar contraseña</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-datos" style="display:none">
+        <div class="aviso">
+          <strong>☁️ En la Nube:</strong> Tus productos ahora están sincronizados con Firebase. Cualquier cambio que hagas aquí se verá reflejado en todos los dispositivos de tus clientes al instante.
+        </div>
+        <div class="admin-card">
+          <h3>Respaldo local</h3>
+          <p class="hint">Descarga un archivo de seguridad con todos tus productos (por si acaso).</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn-chico" id="btnExportar">⬇️ Exportar respaldo (JSON)</button>
+          </div>
+        </div>
+        <div class="admin-card">
+          <h3>Estadísticas rápidas</h3>
+          <div id="adminStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- =========================================================
+     FIREBASE Y LÓGICA
+     ========================================================= -->
+<script type="module">
+// 1. IMPORTAR FIREBASE
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+// 2. TU CONFIGURACIÓN
+const firebaseConfig = {
+  apiKey: "AIzaSyDfrOvAKHqjkI-1JmThrXHe4so6JJ_jhDo",
+  authDomain: "luz-azul-c0257.firebaseapp.com",
+  projectId: "luz-azul-c0257",
+  storageBucket: "luz-azul-c0257.firebasestorage.app",
+  messagingSenderId: "1031151990680",
+  appId: "1:1031151990680:web:74e290429a37bd6d20dded",
+  measurementId: "G-MRK85HGY5Z"
+};
+
+// 3. INICIALIZAR
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+// Referencias a los documentos en Firestore
+const docProductosRef = doc(db, "tienda", "productos");
+const docConfigRef = doc(db, "tienda", "config");
+
+/* =========================================================
+   VARIABLES GLOBALES Y ESTADO
+   ========================================================= */
+const LS_CARRITO = 'luzazul_carrito_v3';
+const LS_LISTA   = 'luzazul_lista_v3';
+const SS_ADMIN   = 'luzazul_admin_sesion';
+
+const PRODUCTOS_DEFAULT = [
+  {id:'taza-magica', nombre:'Taza mágica 11oz', cat:'Tazas', precio:25000, precioOferta:0, oferta:false, emoji:'☕', desc:'Cambia de color con el calor', largo:'Taza de cerámica blanca de 11oz.', imagenes:[], galeria:[], visible:true},
+  {id:'taza-blanca', nombre:'Taza blanca 11oz', cat:'Tazas', precio:18000, precioOferta:0, oferta:false, emoji:'☕', desc:'Cerámica premium, full color', largo:'Taza clásica de cerámica blanca.', imagenes:[], galeria:[], visible:true},
+  {id:'franela', nombre:'Franela adulto', cat:'Textiles', precio:35000, precioOferta:29000, oferta:true, emoji:'👕', desc:'Poliéster, sublimación total', largo:'Franela de poliéster 100%.', imagenes:[], galeria:[], visible:true}
+];
+
+const CONFIG_DEFAULT = {
+  whatsapp: '584120000000', nombre: 'Luz Azul', moneda: '$', password: 'luzazul2024'
+};
+
+let productos = []; // Se llenará desde Firebase
+let config = CONFIG_DEFAULT; // Se llenará desde Firebase
+let carrito = JSON.parse(localStorage.getItem(LS_CARRITO)) || [];
+let lista = JSON.parse(localStorage.getItem(LS_LISTA)) || [];
+let filtroActual = 'Todos';
+let adminLogueado = sessionStorage.getItem(SS_ADMIN) === 'ok';
+let editandoId = null;
+let formImagenes = [];
+let formGaleria = [];
+let datosCargados = false;
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+/* =========================================================
+   FUNCIONES DE FIREBASE
+   ========================================================= */
+async function initFirebaseData() {
+  try {
+    // Escuchar cambios en Configuración
+    onSnapshot(docConfigRef, (docSnap) => {
+      if (docSnap.exists()) {
+        config = docSnap.data();
+      } else {
+        // Si no existe, creamos la configuración por defecto
+        setDoc(docConfigRef, CONFIG_DEFAULT);
+        config = CONFIG_DEFAULT;
+      }
+      $('#linkWaFooter').href = `https://wa.me/${config.whatsapp}`;
+      if(datosCargados) renderTodo();
+    });
+
+    // Escuchar cambios en Productos (Tiempo Real)
+    onSnapshot(docProductosRef, (docSnap) => {
+      if (docSnap.exists()) {
+        productos = docSnap.data().lista || [];
+      } else {
+        // Si la base de datos está vacía, subimos los productos por defecto
+        setDoc(docProductosRef, { lista: PRODUCTOS_DEFAULT });
+        productos = PRODUCTOS_DEFAULT;
+      }
+      
+      // Asegurar array galeria
+      productos.forEach(p => { if(!p.galeria) p.galeria = []; });
+      
+      datosCargados = true;
+      $('#global-loader').style.opacity = '0';
+      setTimeout(() => { $('#global-loader').style.display = 'none'; }, 500);
+      
+      renderTodo();
+      
+      // Si el admin está logueado y viendo la tabla, actualizarla
+      if (adminLogueado && $('#adminPanel').classList.contains('visible')) {
+        renderTablaAdmin();
+      }
+    });
+
+  } catch (error) {
+    console.error("Error cargando datos:", error);
+    alert("Error de conexión con la base de datos. Revisa las reglas de Firebase.");
+  }
+}
+
+async function guardarProductosDB() {
+  try {
+    await setDoc(docProductosRef, { lista: productos });
+  } catch (error) {
+    console.error("Error guardando productos:", error);
+    toast("❌ Error al guardar. Revisa tu conexión.");
+  }
+}
+
+async function guardarConfigDB() {
+  try {
+    await setDoc(docConfigRef, config);
+  } catch (error) {
+    console.error("Error guardando config:", error);
+    toast("❌ Error al guardar config.");
+  }
+}
+
+/* =========================================================
+   UTILIDADES Y PRECIOS
+   ========================================================= */
+function precio(n){ return config.moneda + ' ' + (Number(n)||0).toLocaleString('es-CO'); }
+function tieneOferta(p){ return p.oferta && Number(p.precioOferta) > 0 && Number(p.precioOferta) < Number(p.precio); }
+function precioFinal(p){ return tieneOferta(p) ? Number(p.precioOferta) : Number(p.precio); }
+function porcentajeDescuento(p){
+  if(!tieneOferta(p)) return 0;
+  return Math.round((1 - Number(p.precioOferta) / Number(p.precio)) * 100);
+}
+function guardarCarrito(){ localStorage.setItem(LS_CARRITO, JSON.stringify(carrito)); }
+function guardarLista(){ localStorage.setItem(LS_LISTA, JSON.stringify(lista)); }
+
+let toastTimer;
+function toast(msg){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('visible'), 2300);
+}
+
+function escaparHTML(t){
+  const d = document.createElement('div');
+  d.textContent = t == null ? '' : t;
+  return d.innerHTML;
+}
+
+/* =========================================================
+   SUBIDA DE IMÁGENES A FIREBASE STORAGE
+   ========================================================= */
+async function subirImagenFirebase(file) {
+  // Generar nombre único
+  const extension = file.name.split('.').pop();
+  const nombreArchivo = `productos/${Date.now()}_${Math.random().toString(36).substring(7)}.${extension}`;
+  const storageRef = ref(storage, nombreArchivo);
+  
+  // Subir archivo
+  await uploadBytes(storageRef, file);
+  // Obtener URL de descarga
+  const url = await getDownloadURL(storageRef);
+  return url;
+}
+
+/* =========================================================
+   RENDER TIENDA
+   ========================================================= */
+function renderFiltros(){
+  const visibles = productos.filter(p => p.visible);
+  const cats = ['Todos', ...new Set(visibles.map(p => p.cat))];
+  $('#filtros').innerHTML = cats.map(c =>
+    `<button class="chip ${c===filtroActual?'activo':''}" data-cat="${escaparHTML(c)}">${escaparHTML(c)}</button>`
+  ).join('');
+}
+function renderProductos(){
+  const visibles = productos.filter(p => p.visible);
+  const items = filtroActual === 'Todos' ? visibles : visibles.filter(p => p.cat === filtroActual);
+  if(items.length === 0){
+    $('#gridProductos').innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--gris)"><div style="font-size:3rem;margin-bottom:10px">🔍</div>No hay productos disponibles.</div>`;
+    return;
+  }
+  $('#gridProductos').innerHTML = items.map(p => {
+    const img = p.imagenes && p.imagenes[0];
+    const enOferta = tieneOferta(p);
+    const desc = porcentajeDescuento(p);
+    return `
+      <article class="card" data-id="${p.id}">
+        <div class="card-img">
+          ${enOferta ? `<span class="badge-oferta">🔥 -${desc}%</span>` : ''}
+          ${ img ? `<img src="${img}" alt="${escaparHTML(p.nombre)}" loading="lazy">` : p.emoji || '🎁' }
+        </div>
+        <h3>${escaparHTML(p.nombre)}</h3>
+        <p class="desc">${escaparHTML(p.desc || '')}</p>
+        <div class="fila">
+          <div class="precios">
+            ${ enOferta
+              ? `<span class="precio">${precio(p.precioOferta)}</span><span class="precio-original">${precio(p.precio)}</span>`
+              : `<span class="precio">${precio(p.precio)}</span>` }
+          </div>
+          <button class="btn-agregar" data-id="${p.id}">+ Agregar</button>
+        </div>
+      </article>`;
+  }).join('');
+}
+$('#filtros').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  filtroActual = chip.dataset.cat;
+  $$('.chip').forEach(c => c.classList.remove('activo'));
+  chip.classList.add('activo');
+  renderProductos();
+});
+$('#gridProductos').addEventListener('click', e => {
+  const btn = e.target.closest('.btn-agregar');
+  if(btn){ e.stopPropagation(); agregarAlCarrito(btn.dataset.id); return; }
+  const card = e.target.closest('.card');
+  if(card) abrirDetalle(card.dataset.id);
+});
+
+/* =========================================================
+   MODAL DETALLE
+   ========================================================= */
+function abrirDetalle(id){
+  const p = productos.find(x => x.id === id);
+  if(!p) return;
+  const imagenes = (p.imagenes && p.imagenes.length) ? p.imagenes : [];
+  const principal = imagenes[0];
+  const enOferta = tieneOferta(p);
+  const desc = porcentajeDescuento(p);
+  const galeria = p.galeria || [];
+  
+  let galeriaHTML = '';
+  if(galeria.length > 0){
+    galeriaHTML = `
+      <div class="galeria-trabajos">
+        <h3>🎨 Ejemplos de trabajos hechos</h3>
+        <div class="trabajos-grid">
+          ${galeria.map(img => `<div class="trabajo-item"><img src="${img}" alt="Trabajo" loading="lazy"></div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  $('#modalDetalleContenido').innerHTML = `
+    <button class="modal-cerrar" id="btnCerrarDetalle">✕</button>
+    <div class="detalle">
+      <div class="detalle-galeria">
+        ${enOferta ? `<span class="badge-oferta" style="top:32px;left:32px">🔥 -${desc}%</span>` : ''}
+        <div class="detalle-img" id="detalleImg">
+          ${ principal ? `<img src="${principal}" alt="${escaparHTML(p.nombre)}">` : (p.emoji || '🎁') }
+        </div>
+        ${ imagenes.length > 1 ? `<div class="miniaturas" id="miniaturas">${ imagenes.map((im,i) => `<button class="${i===0?'activa':''}" data-i="${i}"><img src="${im}" alt=""></button>`).join('') }</div>` : '' }
+      </div>
+      <div class="detalle-info">
+        <span class="cat">${escaparHTML(p.cat)}</span>
+        <h2>${escaparHTML(p.nombre)}</h2>
+        <div class="detalle-precios">
+          ${ enOferta
+            ? `<span class="precio-grande">${precio(p.precioOferta)}</span><span class="precio-tachado">${precio(p.precio)}</span><span class="ahorro">AHORRAS ${precio(Number(p.precio) - Number(p.precioOferta))}</span>`
+            : `<span class="precio-grande">${precio(p.precio)}</span>` }
+        </div>
+        <p class="largo">${escaparHTML(p.largo || p.desc || 'Producto personalizado de Luz Azul.')}</p>
+        <div class="cant-selector">
+          <label>Cantidad:</label>
+          <div class="cant-box">
+            <button id="detMenos">−</button>
+            <span id="detCant">1</span>
+            <button id="detMas">+</button>
+          </div>
+        </div>
+        <button class="btn btn-primario" id="detAgregar">🛒 Agregar al carrito</button>
+      </div>
+    </div>
+    ${galeriaHTML}
+  `;
+
+  $('#modalDetalle').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+  $('#btnCerrarDetalle').onclick = cerrarDetalle;
+  $('#modalDetalle').onclick = e => { if(e.target.id === 'modalDetalle') cerrarDetalle(); };
+  const mini = $('#miniaturas');
+  if(mini){
+    mini.addEventListener('click', e => {
+      const b = e.target.closest('button[data-i]');
+      if(!b) return;
+      const i = Number(b.dataset.i);
+      $('#detalleImg').innerHTML = `<img src="${imagenes[i]}" alt="">`;
+      mini.querySelectorAll('button').forEach(x => x.classList.remove('activa'));
+      b.classList.add('activa');
+    });
+  }
+  let cant = 1;
+  $('#detMenos').onclick = () => { if(cant > 1){ cant--; $('#detCant').textContent = cant; } };
+  $('#detMas').onclick   = () => { cant++; $('#detCant').textContent = cant; };
+  $('#detAgregar').onclick = () => {
+    agregarAlCarrito(p.id, cant);
+    cerrarDetalle();
+    setTimeout(abrirCarrito, 200);
+  };
+}
+function cerrarDetalle(){
+  $('#modalDetalle').classList.remove('visible');
+  if(!$('#drawer').classList.contains('abierto')) document.body.style.overflow = '';
+}
+
+/* =========================================================
+   CARRITO
+   ========================================================= */
+function agregarAlCarrito(id, cant = 1){
+  const p = productos.find(x => x.id === id);
+  if(!p) return;
+  const item = carrito.find(i => i.id === id);
+  if(item) item.cant += cant;
+  else carrito.push({ id, cant });
+  guardarCarrito(); renderCarrito();
+  toast(`✅ ${p.nombre} agregado`);
+  const b = $('#badge');
+  b.classList.add('pop');
+  setTimeout(() => b.classList.remove('pop'), 260);
+}
+function cambiarCantidad(id, delta){
+  const item = carrito.find(i => i.id === id);
+  if(!item) return;
+  item.cant += delta;
+  if(item.cant <= 0) carrito = carrito.filter(i => i.id !== id);
+  guardarCarrito(); renderCarrito();
+}
+function quitarDelCarrito(id){
+  carrito = carrito.filter(i => i.id !== id);
+  guardarCarrito(); renderCarrito();
+}
+function totalesCarrito(){
+  let subtotal = 0, ahorro = 0, total = 0;
+  carrito.forEach(it => {
+    const p = productos.find(x => x.id === it.id);
+    if(!p) return;
+    const orig = Number(p.precio) * it.cant;
+    const fin  = precioFinal(p) * it.cant;
+    subtotal += orig; total += fin; ahorro += (orig - fin);
+  });
+  return { subtotal, ahorro, total };
+}
+function renderCarrito(){
+  const cont = $('#carritoItems');
+  const nItems = carrito.reduce((s, i) => s + i.cant, 0);
+  $('#badge').textContent = nItems;
+  carrito = carrito.filter(it => productos.find(p => p.id === it.id));
+  guardarCarrito();
+  if(carrito.length === 0){
+    cont.innerHTML = `<div class="carrito-vacio"><span>🛒</span><p>Tu carrito está vacío.<br>¡Agrega tus productos favoritos!</p><button class="btn btn-primario" id="btnIrProductos">Ver productos</button></div>`;
+    const b = $('#btnIrProductos');
+    if(b) b.onclick = () => { cerrarCarrito(); document.getElementById('productos').scrollIntoView({behavior:'smooth'}); };
+  } else {
+    cont.innerHTML = carrito.map(it => {
+      const p = productos.find(x => x.id === it.id);
+      if(!p) return '';
+      const img = p.imagenes && p.imagenes[0];
+      const enOferta = tieneOferta(p);
+      const precioU = precioFinal(p);
+      return `
+        <div class="item-carrito">
+          <div class="emoji">${ img ? `<img src="${img}" alt="">` : (p.emoji || '🎁') }</div>
+          <div class="info">
+            <strong>${escaparHTML(p.nombre)}</strong>
+            <span class="unit">
+              ${ enOferta
+                ? `<span style="text-decoration:line-through;color:var(--gris-suave)">${precio(p.precio)}</span> <b style="color:var(--azul-brillante)">${precio(p.precioOferta)}</b> c/u`
+                : `${precio(p.precio)} c/u` }
+            </span>
+            <div class="cant-control">
+              <button data-accion="menos" data-id="${p.id}">−</button>
+              <span>${it.cant}</span>
+              <button data-accion="mas" data-id="${p.id}">+</button>
+            </div>
+          </div>
+          <div class="der">
+            <span class="sub">${precio(precioU * it.cant)}</span>
+            <button class="btn-quitar" data-accion="quitar" data-id="${p.id}">🗑️</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+  const { subtotal, ahorro, total } = totalesCarrito();
+  $('#subtotal').textContent = precio(subtotal);
+  $('#total').textContent    = precio(total);
+  if(ahorro > 0){
+    $('#lineaAhorro').style.display = 'flex';
+    $('#ahorroTotal').textContent = '− ' + precio(ahorro);
+  } else { $('#lineaAhorro').style.display = 'none'; }
+}
+$('#carritoItems').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-accion]');
+  if(!btn) return;
+  const { accion, id } = btn.dataset;
+  if(accion === 'mas')    cambiarCantidad(id, 1);
+  if(accion === 'menos')  cambiarCantidad(id, -1);
+  if(accion === 'quitar') quitarDelCarrito(id);
+});
+function abrirCarrito(){
+  $('#drawer').classList.add('abierto');
+  $('#overlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarCarrito(){
+  $('#drawer').classList.remove('abierto');
+  $('#overlay').classList.remove('visible');
+  if(!$('#modalDetalle').classList.contains('visible')) document.body.style.overflow = '';
+}
+$('#btnAbrirCarrito').onclick = abrirCarrito;
+$('#btnCerrarCarrito').onclick = cerrarCarrito;
+$('#overlay').onclick = cerrarCarrito;
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    if($('#modalDetalle').classList.contains('visible')) cerrarDetalle();
+    else cerrarCarrito();
+  }
+});
+$('#btnVaciar').onclick = () => {
+  if(carrito.length === 0) return;
+  if(confirm('¿Seguro que quieres vaciar el carrito?')){
+    carrito = []; guardarCarrito(); renderCarrito(); toast('🗑️ Carrito vaciado');
+  }
+};
+$('#btnWhatsapp').onclick = () => {
+  if(carrito.length === 0){ toast('🛒 Tu carrito está vacío'); return; }
+  let msg = `¡Hola ${config.nombre}! 👋%0AQuiero hacer este pedido:%0A%0A`;
+  carrito.forEach(it => {
+    const p = productos.find(x => x.id === it.id);
+    if(!p) return;
+    const u = precioFinal(p);
+    msg += `• ${it.cant} x ${p.nombre} — ${precio(u * it.cant)}%0A`;
+  });
+  const { total } = totalesCarrito();
+  msg += `%0A*Total: ${precio(total)}*%0A%0A¿Me confirman disponibilidad? ¡Gracias! 💙`;
+  window.open(`https://wa.me/${config.whatsapp}?text=${msg}`, '_blank');
+};
+
+/* =========================================================
+   LISTA DE COMPRAS
+   ========================================================= */
+function agregarItemLista(texto, cant){
+  if(!texto.trim()){ toast('✏️ Escribe algo primero'); return; }
+  lista.push({ id: Date.now() + Math.random(), texto: texto.trim(), cant: cant || 1, hecho: false });
+  guardarLista(); renderLista(); toast('📝 Agregado a la lista');
+}
+function renderLista(){
+  const cont = $('#contenedorLista');
+  if(lista.length === 0){
+    cont.innerHTML = `<div class="lista-vacia"><span>📋</span>Tu lista está vacía.<br>Agrega lo que necesites comprar o producir.</div>`;
+  } else {
+    cont.innerHTML = lista.map(it => `
+      <div class="item-lista ${it.hecho ? 'hecho' : ''}">
+        <button class="check ${it.hecho ? 'on' : ''}" data-accion="marcar" data-id="${it.id}">✓</button>
+        <span class="texto">${escaparHTML(it.texto)}</span>
+        <span class="cant">x${it.cant}</span>
+        <button class="btn-borrar" data-accion="borrar" data-id="${it.id}">✕</button>
+      </div>
+    `).join('');
+  }
+  const total = lista.length, hechos = lista.filter(i => i.hecho).length, faltan = total - hechos;
+  $('#resumenLista').innerHTML = total === 0 ? 'Sin items en la lista'
+    : `<strong>${faltan}</strong> pendiente${faltan === 1 ? '' : 's'} de <strong>${total}</strong> · ${hechos} listo${hechos === 1 ? '' : 's'}`;
+}
+$('#btnAgregarItem').onclick = () => {
+  const texto = $('#inputItem').value;
+  const cant = parseInt($('#inputCant').value) || 1;
+  agregarItemLista(texto, cant);
+  $('#inputItem').value = ''; $('#inputCant').value = 1; $('#inputItem').focus();
+};
+$('#inputItem').addEventListener('keydown', e => { if(e.key === 'Enter') $('#btnAgregarItem').click(); });
+$('#contenedorLista').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-accion]');
+  if(!btn) return;
+  const id = btn.dataset.id;
+  if(btn.dataset.accion === 'marcar'){
+    const it = lista.find(i => String(i.id) === id);
+    if(it) it.hecho = !it.hecho;
+  }
+  if(btn.dataset.accion === 'borrar') lista = lista.filter(i => String(i.id) !== id);
+  guardarLista(); renderLista();
+});
+$('#btnLimpiarLista').onclick = () => {
+  if(lista.length === 0) return;
+  if(confirm('¿Borrar toda la lista de compras?')){
+    lista = []; guardarLista(); renderLista(); toast('🗑️ Lista limpiada');
+  }
+};
+$('#btnImprimir').onclick = () => window.print();
+$('#btnCompartirLista').onclick = () => {
+  if(lista.length === 0){ toast('📋 La lista está vacía'); return; }
+  let msg = `📝 *Lista de compras — ${config.nombre}*%0A%0A`;
+  lista.forEach(it => { msg += `${it.hecho ? '✅' : '⬜'} ${it.cant} x ${it.texto}%0A`; });
+  const faltan = lista.filter(i => !i.hecho).length;
+  msg += `%0A*Pendientes: ${faltan} de ${lista.length}*`;
+  window.open(`https://wa.me/${config.whatsapp}?text=${msg}`, '_blank');
+};
+
+/* =========================================================
+   PANEL ADMIN
+   ========================================================= */
+function abrirAdmin(){
+  $('#adminPanel').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+  if(adminLogueado){
+    $('#adminLogin').style.display = 'none';
+    $('#adminContent').style.display = 'block';
+    renderAdmin();
+  } else {
+    $('#adminLogin').style.display = 'block';
+    $('#adminContent').style.display = 'none';
+    setTimeout(() => $('#adminPass').focus(), 100);
+  }
+}
+function cerrarAdmin(){
+  $('#adminPanel').classList.remove('visible');
+  document.body.style.overflow = '';
+  if(location.hash === '#admin') location.hash = '';
+  editandoId = null; formImagenes = []; formGaleria = [];
+}
+$('#btnAbrirAdmin').onclick = abrirAdmin;
+$('#btnCerrarLogin').onclick = cerrarAdmin;
+$('#btnVerTienda').onclick = cerrarAdmin;
+document.addEventListener('keydown', e => {
+  if(e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')){ e.preventDefault(); abrirAdmin(); }
+});
+function chequearHash(){ if(location.hash === '#admin') abrirAdmin(); }
+window.addEventListener('hashchange', chequearHash);
+
+function intentarLogin(){
+  const pass = $('#adminPass').value;
+  if(pass === config.password){
+    adminLogueado = true;
+    sessionStorage.setItem(SS_ADMIN, 'ok');
+    $('#loginError').textContent = '';
+    $('#adminPass').value = '';
+    $('#adminLogin').style.display = 'none';
+    $('#adminContent').style.display = 'block';
+    renderAdmin();
+    toast('✅ Bienvenido al panel');
+  } else {
+    $('#loginError').textContent = '❌ Contraseña incorrecta';
+  }
+}
+$('#btnLogin').onclick = intentarLogin;
+$('#adminPass').addEventListener('keydown', e => { if(e.key === 'Enter') intentarLogin(); });
+$('#btnSalirAdmin').onclick = () => {
+  adminLogueado = false;
+  sessionStorage.removeItem(SS_ADMIN);
+  cerrarAdmin();
+  toast('👋 Sesión cerrada');
+};
+$$('.admin-tab').forEach(tab => {
+  tab.onclick = () => {
+    $$('.admin-tab').forEach(t => t.classList.remove('activo'));
+    tab.classList.add('activo');
+    ['productos','config','datos'].forEach(t => {
+      $('#tab-' + t).style.display = (t === tab.dataset.tab) ? 'block' : 'none';
+    });
+    if(tab.dataset.tab === 'config') cargarConfigEnFormulario();
+    if(tab.dataset.tab === 'datos')  renderStats();
+  };
+});
+
+/* =========================================================
+   TABLA CON PRECIOS EDITABLES INLINE
+   ========================================================= */
+function renderAdmin(){
+  renderTablaAdmin();
+  cargarConfigEnFormulario();
+  renderStats();
+}
+
+function renderTablaAdmin(){
+  const cont = $('#adminTabla');
+  if(productos.length === 0){
+    cont.innerHTML = `<div class="vacio-admin"><span>📦</span>No hay productos. Crea el primero con el botón de arriba.</div>`;
+    return;
+  }
+
+  cont.innerHTML = productos.map(p => {
+    const img = p.imagenes && p.imagenes[0];
+    const enOf = tieneOferta(p);
+    const editando = editandoId === p.id;
+
+    const fila = `
+      <div class="admin-fila ${p.visible ? '' : 'oculto'}">
+        <div class="admin-thumb">
+          ${enOf ? `<span class="mini-oferta">-${porcentajeDescuento(p)}%</span>` : ''}
+          ${ img ? `<img src="${img}" alt="">` : (p.emoji || '🎁') }
+        </div>
+        <div>
+          <div class="nom">${escaparHTML(p.nombre)}</div>
+          <div class="cat-tag">${escaparHTML(p.cat)} · ${p.imagenes ? p.imagenes.length : 0} img</div>
+        </div>
+
+        <div class="campo-precio">
+          <small>💰 Precio</small>
+          <input type="number" class="input-precio-inline" 
+            value="${p.precio}" min="0" data-id="${p.id}" data-campo="precio" 
+            title="Edita el precio normal">
+        </div>
+
+        <div class="campo-precio">
+          <small>🔥 Oferta</small>
+          <input type="number" class="input-precio-inline oferta" 
+            value="${p.precioOferta || ''}" placeholder="Sin oferta" min="0" 
+            data-id="${p.id}" data-campo="precioOferta"
+            title="Deja vacío o 0 para quitar oferta"
+            ${p.oferta ? '' : 'disabled'}>
+        </div>
+
+        <div>
+          <button class="mini-btn ${p.visible ? 'verde' : 'gris'}" data-accion="toggle" data-id="${p.id}">
+            ${p.visible ? '👁️ Visible' : '🚫 Oculto'}
+          </button>
+        </div>
+
+        <div class="admin-acciones">
+          <button class="mini-btn ${p.oferta ? 'oferta' : ''}" data-accion="oferta" data-id="${p.id}" title="Activar/Desactivar oferta">
+            ${p.oferta ? '🔥' : '💤'}
+          </button>
+          <button class="mini-btn" data-accion="editar" data-id="${p.id}" title="Editar detalles">
+            ${editando ? '✖️' : '✏️'}
+          </button>
+          <button class="mini-btn" data-accion="duplicar" data-id="${p.id}" title="Duplicar">📋</button>
+          <button class="mini-btn rojo" data-accion="eliminar" data-id="${p.id}" title="Eliminar">🗑️</button>
+        </div>
+      </div>
+    `;
+
+    return `
+      <div class="admin-item ${editando ? 'editando' : ''}" data-id="${p.id}">
+        ${fila}
+        ${editando ? renderFormProducto(p, false) : ''}
+      </div>
+    `;
+  }).join('');
+
+  engancharPreciosInline();
+  if(editandoId) engancharFormProducto();
+}
+
+function engancharPreciosInline(){
+  $$('.input-precio-inline').forEach(input => {
+    input.addEventListener('change', e => {
+      const id = input.dataset.id;
+      const campo = input.dataset.campo;
+      const valor = Number(input.value);
+      const p = productos.find(x => x.id === id);
+      if(!p) return;
+
+      if(isNaN(valor) || valor < 0){
+        toast('❌ Precio inválido');
+        input.value = campo === 'precio' ? p.precio : (p.precioOferta || '');
+        return;
+      }
+
+      if(campo === 'precioOferta' && valor > 0 && valor >= Number(p.precio)){
+        toast('⚠️ La oferta debe ser menor al precio normal');
+        input.value = p.precioOferta || '';
+        return;
+      }
+
+      p[campo] = valor;
+      guardarProductosDB(); // Guardar en Firebase
+      renderProductos();
+      renderCarrito();
+      renderStats();
+      toast(`💾 Guardado en la nube: ${precio(valor)}`);
+    });
+
+    input.addEventListener('keydown', e => {
+      if(e.key === 'Enter') input.blur();
+    });
+  });
+}
+
+/* =========================================================
+   FORMULARIO INLINE (Imágenes suben a Storage)
+   ========================================================= */
+function renderFormProducto(p){
+  const categorias = [...new Set(productos.map(x => x.cat))];
+  const nombre = p ? escaparHTML(p.nombre) : '';
+  const cat    = p ? escaparHTML(p.cat) : '';
+  const emoji  = p ? escaparHTML(p.emoji || '') : '🎁';
+  const desc   = p ? escaparHTML(p.desc || '') : '';
+  const largo  = p ? escaparHTML(p.largo || '') : '';
+  const visible = (!p || p.visible);
+
+  return `
+    <div class="admin-edit">
+      <h4>${p ? '✏️ Editando: ' + escaparHTML(p.nombre) : '➕ Nuevo producto'}</h4>
+      <p class="hint">Los precios ya los editaste arriba. Aquí completas los demás detalles.</p>
+      <div class="form-grid">
+        <div class="campo span2">
+          <label>Nombre del producto</label>
+          <input type="text" id="fNombre" value="${nombre}" placeholder="Ej: Taza mágica 11oz">
+        </div>
+        <div class="campo">
+          <label>Categoría</label>
+          <input type="text" id="fCat" list="listaCats" value="${cat}" placeholder="Ej: Tazas">
+          <datalist id="listaCats">${categorias.map(c => `<option value="${escaparHTML(c)}">`).join('')}</datalist>
+        </div>
+        <div class="campo">
+          <label>Emoji (si no hay imagen)</label>
+          <input type="text" id="fEmoji" value="${emoji}" maxlength="4">
+        </div>
+        <div class="campo span2">
+          <label>Descripción corta</label>
+          <input type="text" id="fDesc" value="${desc}" placeholder="Ej: Cerámica premium, full color">
+        </div>
+        <div class="campo full">
+          <label>Descripción larga</label>
+          <textarea id="fLargo" placeholder="Detalle completo del producto...">${largo}</textarea>
+        </div>
+
+        <!-- IMAGEN PRINCIPAL DEL PRODUCTO -->
+        <div class="campo full">
+          <label>Imagen principal del producto</label>
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-icon">📸</div>
+            <div class="drop-title">Arrastra la foto principal aquí</div>
+            <div class="drop-hint">o haz clic para seleccionar · se subirá a la nube</div>
+            <input type="file" id="fArchivos" accept="image/*" multiple hidden>
+          </div>
+          <div class="img-lista" id="imgLista"></div>
+        </div>
+
+        <!-- GALERÍA DE TRABAJOS HECHOS -->
+        <div class="campo full">
+          <label>Galería de trabajos hechos (Ejemplos)</label>
+          <div class="drop-zone" id="dropZoneGaleria">
+            <div class="drop-icon">🎨</div>
+            <div class="drop-title">Arrastra fotos de trabajos aquí</div>
+            <div class="drop-hint">Se mostrarán como ejemplos en el detalle del producto</div>
+            <input type="file" id="fArchivosGaleria" accept="image/*" multiple hidden>
+          </div>
+          <div class="img-lista" id="imgListaGaleria"></div>
+        </div>
+
+        <div class="campo full">
+          <label class="campo-check" style="margin:0">
+            <input type="checkbox" id="fVisible" ${visible ? 'checked' : ''}>
+            <span>👁️ Mostrar este producto en la tienda</span>
+          </label>
+        </div>
+      </div>
+      <div class="admin-edit-acciones">
+        <button class="btn-chico" id="btnGuardarProducto">💾 Guardar cambios</button>
+        <button class="btn-chico gris" id="btnCancelarEdicion">Cancelar</button>
+      </div>
+    </div>
+  `;
+}
+
+function engancharFormProducto(){
+  formImagenes = editandoId
+    ? (productos.find(x => x.id === editandoId)?.imagenes || []).slice()
+    : [];
+  formGaleria = editandoId
+    ? (productos.find(x => x.id === editandoId)?.galeria || []).slice()
+    : [];
+    
+  renderImgForm();
+  engancharDropZones();
+
+  const btnG = $('#btnGuardarProducto');
+  if(btnG) btnG.onclick = guardarFormProducto;
+  const btnC = $('#btnCancelarEdicion');
+  if(btnC) btnC.onclick = cancelarEdicion;
+}
+
+function engancharDropZones(){
+  // Dropzone principal
+  const dz = document.getElementById('dropZone');
+  const input = document.getElementById('fArchivos');
+  if(dz && input){
+    dz.onclick = () => input.click();
+    dz.ondragover = e => { e.preventDefault(); dz.classList.add('activa'); };
+    dz.ondragleave = () => dz.classList.remove('activa');
+    dz.ondrop = async e => {
+      e.preventDefault(); dz.classList.remove('activa');
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+      if(files.length > 0) toast("Subiendo imágenes...");
+      for(const f of files){ 
+        try { formImagenes.push(await subirImagenFirebase(f)); } catch(err){ toast("❌ Error al subir"); } 
+      }
+      renderImgForm();
+    };
+    input.onchange = async e => {
+      const files = Array.from(e.target.files);
+      if(files.length > 0) toast("Subiendo imágenes...");
+      for(const f of files){ 
+        try { formImagenes.push(await subirImagenFirebase(f)); } catch(err){ toast("❌ Error al subir"); } 
+      }
+      renderImgForm(); e.target.value = '';
+    };
+  }
+
+  // Dropzone galería
+  const dzG = document.getElementById('dropZoneGaleria');
+  const inputG = document.getElementById('fArchivosGaleria');
+  if(dzG && inputG){
+    dzG.onclick = () => inputG.click();
+    dzG.ondragover = e => { e.preventDefault(); dzG.classList.add('activa'); };
+    dzG.ondragleave = () => dzG.classList.remove('activa');
+    dzG.ondrop = async e => {
+      e.preventDefault(); dzG.classList.remove('activa');
+      const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+      if(files.length > 0) toast("Subiendo imágenes...");
+      for(const f of files){ 
+        try { formGaleria.push(await subirImagenFirebase(f)); } catch(err){ toast("❌ Error al subir"); } 
+      }
+      renderImgGaleria();
+    };
+    inputG.onchange = async e => {
+      const files = Array.from(e.target.files);
+      if(files.length > 0) toast("Subiendo imágenes...");
+      for(const f of files){ 
+        try { formGaleria.push(await subirImagenFirebase(f)); } catch(err){ toast("❌ Error al subir"); } 
+      }
+      renderImgGaleria(); e.target.value = '';
+    };
+  }
+}
+
+function renderImgForm(){
+  const cont = $('#imgLista');
+  if(!cont) return;
+  if(formImagenes.length === 0){
+    cont.innerHTML = `<p style="color:var(--gris);font-size:.85rem;padding:8px 0">Sin imágenes. La primera será la principal.</p>`;
+    return;
+  }
+  cont.innerHTML = formImagenes.map((im, i) => `
+    <div class="img-item">
+      <img src="${im}" alt="">
+      ${i === 0 ? '<div class="principal">PRINCIPAL</div>' : ''}
+      <button type="button" class="quitar" data-i="${i}" title="Quitar">✕</button>
+    </div>
+  `).join('');
+  cont.querySelectorAll('.quitar').forEach(b => {
+    b.onclick = () => { formImagenes.splice(Number(b.dataset.i), 1); renderImgForm(); };
+  });
+}
+
+function renderImgGaleria(){
+  const cont = $('#imgListaGaleria');
+  if(!cont) return;
+  if(formGaleria.length === 0){
+    cont.innerHTML = `<p style="color:var(--gris);font-size:.85rem;padding:8px 0">No hay ejemplos de trabajos agregados.</p>`;
+    return;
+  }
+  cont.innerHTML = formGaleria.map((im, i) => `
+    <div class="img-item">
+      <img src="${im}" alt="">
+      <button type="button" class="quitar" data-i="${i}" title="Quitar">✕</button>
+    </div>
+  `).join('');
+  cont.querySelectorAll('.quitar').forEach(b => {
+    b.onclick = () => { formGaleria.splice(Number(b.dataset.i), 1); renderImgGaleria(); };
+  });
+}
+
+function guardarFormProducto(){
+  const nombre = $('#fNombre').value.trim();
+  const cat    = $('#fCat').value.trim() || 'General';
+  const emoji  = $('#fEmoji').value.trim() || '🎁';
+  const desc   = $('#fDesc').value.trim();
+  const largo  = $('#fLargo').value.trim();
+  const visible = $('#fVisible').checked;
+
+  if(!nombre){ toast('✏️ Falta el nombre del producto'); return; }
+
+  const datos = { 
+    nombre, cat, emoji, desc, largo, visible, 
+    imagenes: [...formImagenes],
+    galeria: [...formGaleria]
+  };
+
+  if(editandoId){
+    const p = productos.find(x => x.id === editandoId);
+    if(p) Object.assign(p, datos);
+    toast('💾 Producto actualizado');
+  } else {
+    productos.push({
+      id: 'prod-' + Date.now(),
+      precio: 0, precioOferta: 0, oferta: false,
+      ...datos
+    });
+    toast('✅ Producto creado');
+  }
+
+  guardarProductosDB(); // Guardar en Firebase
+  editandoId = null; formImagenes = []; formGaleria = [];
+  renderTablaAdmin(); renderFiltros(); renderProductos();
+  renderCarrito(); renderStats();
+}
+
+function cancelarEdicion(){
+  editandoId = null; formImagenes = []; formGaleria = [];
+  renderTablaAdmin();
+}
+
+$('#adminTabla').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-accion]');
+  if(!btn) return;
+  const { accion, id } = btn.dataset;
+  const p = productos.find(x => x.id === id);
+  if(!p) return;
+
+  if(accion === 'toggle'){
+    p.visible = !p.visible;
+    guardarProductosDB();
+    renderTablaAdmin(); renderFiltros(); renderProductos();
+    toast(p.visible ? '👁️ Producto visible' : '🚫 Producto oculto');
+  }
+  if(accion === 'oferta'){
+    p.oferta = !p.oferta;
+    if(p.oferta && (!p.precioOferta || p.precioOferta >= p.precio)){
+      p.precioOferta = Math.round(Number(p.precio) * 0.85);
+    }
+    if(!p.oferta) p.precioOferta = 0;
+    guardarProductosDB();
+    renderTablaAdmin(); renderProductos(); renderCarrito(); renderStats();
+    toast(p.oferta ? '🔥 Oferta activada — ajusta el precio' : '💤 Oferta desactivada');
+  }
+  if(accion === 'editar'){
+    if(editandoId === id){ editandoId = null; formImagenes = []; formGaleria = []; }
+    else { 
+      editandoId = id; 
+      formImagenes = (p.imagenes || []).slice(); 
+      formGaleria = (p.galeria || []).slice();
+    }
+    renderTablaAdmin();
+    setTimeout(() => {
+      const el = document.querySelector(`.admin-item[data-id="${id}"]`);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 80);
+  }
+  if(accion === 'duplicar'){
+    const copia = JSON.parse(JSON.stringify(p));
+    copia.id = 'prod-' + Date.now();
+    copia.nombre = p.nombre + ' (copia)';
+    productos.push(copia);
+    guardarProductosDB();
+    renderTablaAdmin(); renderFiltros(); renderProductos();
+    toast('📋 Producto duplicado');
+  }
+  if(accion === 'eliminar'){
+    if(confirm(`¿Eliminar "${p.nombre}"?`)){
+      productos = productos.filter(x => x.id !== id);
+      carrito = carrito.filter(i => i.id !== id);
+      if(editandoId === id){ editandoId = null; formImagenes = []; formGaleria = []; }
+      guardarProductosDB(); guardarCarrito();
+      renderTablaAdmin(); renderFiltros(); renderProductos();
+      renderCarrito(); renderStats();
+      toast('🗑️ Producto eliminado');
+    }
+  }
+});
+
+$('#btnNuevoProducto').onclick = () => {
+  editandoId = null; formImagenes = []; formGaleria = [];
+  const cont = $('#adminTabla');
+  if(document.getElementById('nuevoProductoForm')){
+    document.getElementById('nuevoProductoForm').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  const div = document.createElement('div');
+  div.id = 'nuevoProductoForm';
+  div.className = 'admin-item editando';
+  div.innerHTML = renderFormProducto(null);
+  cont.prepend(div);
+  engancharFormProductoNuevo();
+  div.scrollIntoView({behavior:'smooth', block:'center'});
+};
+
+function engancharFormProductoNuevo(){
+  const originalEditando = editandoId;
+  editandoId = null; formImagenes = []; formGaleria = [];
+  renderImgForm(); renderImgGaleria();
+  engancharDropZones();
+
+  $('#btnGuardarProducto').onclick = () => {
+    const nombre = $('#fNombre').value.trim();
+    const cat    = $('#fCat').value.trim() || 'General';
+    const emoji  = $('#fEmoji').value.trim() || '🎁';
+    const desc   = $('#fDesc').value.trim();
+    const largo  = $('#fLargo').value.trim();
+    const visible = $('#fVisible').checked;
+
+    if(!nombre){ toast('✏️ Falta el nombre del producto'); return; }
+
+    productos.push({
+      id: 'prod-' + Date.now(),
+      nombre, cat, emoji, desc, largo, visible,
+      precio: 0, precioOferta: 0, oferta: false,
+      imagenes: [...formImagenes],
+      galeria: [...formGaleria]
+    });
+    guardarProductosDB();
+    document.getElementById('nuevoProductoForm')?.remove();
+    formImagenes = []; formGaleria = [];
+    renderTablaAdmin(); renderFiltros(); renderProductos();
+    renderCarrito(); renderStats();
+    toast('✅ Producto creado — edita su precio en la tabla');
+  };
+  $('#btnCancelarEdicion').onclick = () => {
+    document.getElementById('nuevoProductoForm')?.remove();
+    formImagenes = []; formGaleria = [];
+    editandoId = originalEditando;
+  };
+}
+
+/* ============ CONFIG ============ */
+function cargarConfigEnFormulario(){
+  $('#cfgWhatsapp').value = config.whatsapp || '';
+  $('#cfgNombre').value   = config.nombre || '';
+  $('#cfgMoneda').value   = config.moneda || '$';
+  $('#cfgPass').value     = '';
+}
+$('#btnGuardarConfig').onclick = () => {
+  config.whatsapp = $('#cfgWhatsapp').value.trim();
+  config.nombre   = $('#cfgNombre').value.trim() || 'Luz Azul';
+  config.moneda   = $('#cfgMoneda').value.trim() || '$';
+  guardarConfigDB(); // Guardar en Firebase
+  $('#linkWaFooter').href = `https://wa.me/${config.whatsapp}`;
+  renderCarrito(); renderProductos(); renderTablaAdmin();
+  toast('💾 Configuración guardada en la nube');
+};
+$('#btnGuardarPass').onclick = () => {
+  const nueva = $('#cfgPass').value.trim();
+  if(nueva.length < 4){ toast('🔑 Mínimo 4 caracteres'); return; }
+  config.password = nueva;
+  guardarConfigDB();
+  $('#cfgPass').value = '';
+  toast('🔑 Contraseña actualizada');
+};
+
+/* ============ DATOS ============ */
+$('#btnExportar').onclick = () => {
+  const data = { productos, config, exportado: new Date().toISOString(), version: 3 };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `luz-azul-respaldo-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('⬇️ Respaldo descargado');
+};
+
+function renderStats(){
+  const total    = productos.length;
+  const visibles = productos.filter(p => p.visible).length;
+  const enOferta = productos.filter(p => tieneOferta(p)).length;
+  const conImg   = productos.filter(p => p.imagenes && p.imagenes.length).length;
+  const cats     = [...new Set(productos.map(p => p.cat))].length;
+  $('#adminStats').innerHTML = `
+    <div style="padding:18px;border-radius:14px;background:rgba(91,155,213,.15);border:1px solid rgba(91,155,213,.25)">
+      <div style="font-size:1.8rem;font-weight:800;color:var(--azul-brillante)">${total}</div>
+      <div style="font-size:.82rem;color:var(--gris);font-weight:700">Productos totales</div>
+    </div>
+    <div style="padding:18px;border-radius:14px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.25)">
+      <div style="font-size:1.8rem;font-weight:800;color:#6ee7b7">${visibles}</div>
+      <div style="font-size:.82rem;color:var(--gris);font-weight:700">Visibles en tienda</div>
+    </div>
+    <div style="padding:18px;border-radius:14px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.25)">
+      <div style="font-size:1.8rem;font-weight:800;color:#fca5a5">🔥 ${enOferta}</div>
+      <div style="font-size:.82rem;color:var(--gris);font-weight:700">En oferta</div>
+    </div>
+    <div style="padding:18px;border-radius:14px;background:rgba(236,72,153,.15);border:1px solid rgba(236,72,153,.25)">
+      <div style="font-size:1.8rem;font-weight:800;color:#f9a8d4">${conImg}</div>
+      <div style="font-size:.82rem;color:var(--gris);font-weight:700">Con imágenes</div>
+    </div>
+    <div style="padding:18px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--borde)">
+      <div style="font-size:1.8rem;font-weight:800;color:var(--gris)">${cats}</div>
+      <div style="font-size:.82rem;color:var(--gris);font-weight:700">Categorías</div>
+    </div>
+  `;
+}
+
+function renderTodo(){
+  renderFiltros();
+  renderProductos();
+  renderCarrito();
+  renderLista();
+  if(adminLogueado) renderAdmin();
+}
+
+/* =========================================================
+   INICIALIZACIÓN
+   ========================================================= */
+$('#anio').textContent = new Date().getFullYear();
+// Iniciar la carga de Firebase
+initFirebaseData();
+chequearHash();
+
+</script>
+</body>
+</html>
