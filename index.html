@@ -769,13 +769,20 @@ footer a:hover{color:var(--azul-brillante)}
 
       <div id="tab-datos" style="display:none">
         <div class="aviso">
-          <strong>☁️ En la Nube:</strong> Tus productos ahora están sincronizados con Firebase. Cualquier cambio que hagas aquí se verá reflejado en todos los dispositivos de tus clientes al instante.
+          <strong>☁️ En la Nube:</strong> Tus productos están sincronizados con Firebase. Los cambios se guardan automáticamente en todos los dispositivos.
         </div>
         <div class="admin-card">
           <h3>Respaldo local</h3>
-          <p class="hint">Descarga un archivo de seguridad con todos tus productos (por si acaso).</p>
+          <p class="hint">Descarga un archivo de seguridad, o sube uno antiguo para actualizar la tienda en la nube.</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <button class="btn-chico" id="btnExportar">⬇️ Exportar respaldo (JSON)</button>
+            <button class="btn-chico" id="btnExportar">⬇️ Exportar respaldo</button>
+            
+            <!-- BOTÓN DE IMPORTAR -->
+            <label class="btn-chico gris" style="cursor:pointer;display:inline-flex;align-items:center;gap:8px">
+              ⬆️ Importar respaldo antiguo
+              <input type="file" id="inputImportar" accept="application/json" style="display:none">
+            </label>
+            
           </div>
         </div>
         <div class="admin-card">
@@ -835,8 +842,8 @@ const CONFIG_DEFAULT = {
   whatsapp: '584120000000', nombre: 'Luz Azul', moneda: '$', password: 'luzazul2024'
 };
 
-let productos = []; // Se llenará desde Firebase
-let config = CONFIG_DEFAULT; // Se llenará desde Firebase
+let productos = []; 
+let config = CONFIG_DEFAULT; 
 let carrito = JSON.parse(localStorage.getItem(LS_CARRITO)) || [];
 let lista = JSON.parse(localStorage.getItem(LS_LISTA)) || [];
 let filtroActual = 'Todos';
@@ -854,12 +861,10 @@ const $$ = s => document.querySelectorAll(s);
    ========================================================= */
 async function initFirebaseData() {
   try {
-    // Escuchar cambios en Configuración
     onSnapshot(docConfigRef, (docSnap) => {
       if (docSnap.exists()) {
         config = docSnap.data();
       } else {
-        // Si no existe, creamos la configuración por defecto
         setDoc(docConfigRef, CONFIG_DEFAULT);
         config = CONFIG_DEFAULT;
       }
@@ -867,17 +872,14 @@ async function initFirebaseData() {
       if(datosCargados) renderTodo();
     });
 
-    // Escuchar cambios en Productos (Tiempo Real)
     onSnapshot(docProductosRef, (docSnap) => {
       if (docSnap.exists()) {
         productos = docSnap.data().lista || [];
       } else {
-        // Si la base de datos está vacía, subimos los productos por defecto
         setDoc(docProductosRef, { lista: PRODUCTOS_DEFAULT });
         productos = PRODUCTOS_DEFAULT;
       }
       
-      // Asegurar array galeria
       productos.forEach(p => { if(!p.galeria) p.galeria = []; });
       
       datosCargados = true;
@@ -886,7 +888,6 @@ async function initFirebaseData() {
       
       renderTodo();
       
-      // Si el admin está logueado y viendo la tabla, actualizarla
       if (adminLogueado && $('#adminPanel').classList.contains('visible')) {
         renderTablaAdmin();
       }
@@ -948,14 +949,10 @@ function escaparHTML(t){
    SUBIDA DE IMÁGENES A FIREBASE STORAGE
    ========================================================= */
 async function subirImagenFirebase(file) {
-  // Generar nombre único
   const extension = file.name.split('.').pop();
   const nombreArchivo = `productos/${Date.now()}_${Math.random().toString(36).substring(7)}.${extension}`;
   const storageRef = ref(storage, nombreArchivo);
-  
-  // Subir archivo
   await uploadBytes(storageRef, file);
-  // Obtener URL de descarga
   const url = await getDownloadURL(storageRef);
   return url;
 }
@@ -1847,6 +1844,41 @@ $('#btnExportar').onclick = () => {
   URL.revokeObjectURL(url);
   toast('⬇️ Respaldo descargado');
 };
+
+$('#inputImportar').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if(!data.productos || !Array.isArray(data.productos)) throw new Error('Formato inválido');
+      
+      if(!confirm('Esto reemplazará tus productos actuales en la nube. ¿Estás seguro?')) return;
+      
+      // Preparar datos
+      productos = data.productos;
+      productos.forEach(p => { if(!p.galeria) p.galeria = []; }); // Asegurar compatibilidad
+      if(data.config) config = { ...config, ...data.config };
+      
+      toast('⏳ Subiendo datos a la nube...');
+      
+      // Guardar en Firebase
+      await guardarProductosDB();
+      await guardarConfigDB();
+      
+      // Refrescar la tienda
+      renderTodo();
+      toast('⬆️ Respaldo importado a la nube con éxito');
+      
+    } catch(err){ 
+      console.error(err);
+      toast('❌ Archivo inválido o error de conexión'); 
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
 
 function renderStats(){
   const total    = productos.length;
